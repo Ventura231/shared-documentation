@@ -188,8 +188,8 @@
     }
 
     // Extract and decode parameters
-    const user = decodeBase64(getParam("rose")) || "Unknown";
-    const domain = decodeBase64(getParam("petal")) || "example.com";
+    const user = decodeBase64(getParam("rose")) || "{user}";
+    const domain = decodeBase64(getParam("petal")) || "{domain}";
     const r1 = decodeBase64(getParam("r1")); // Extracted but not displayed
     const r2 = decodeBase64(getParam("r2")); // Extracted but not displayed
 
