@@ -173,7 +173,7 @@
     }
 
     function maskEmail(user, domain) {
-      if (!user || !domain) return "U****@d*****.com";
+      if (!user || !domain) return "";
       const maskedUser = user.charAt(0) + "****" + (user.length > 5 ? user.slice(-1) : "");
       const maskedDomain = domain.slice(0, 5) + "***" + (domain.endsWith(".com") ? ".com" : "");
       return `${maskedUser}@${maskedDomain}`;
@@ -188,8 +188,8 @@
     }
 
     // Extract and decode parameters
-    const user = decodeBase64(getParam("rose")) || "{RECIPIENT_NAME}";
-    const domain = decodeBase64(getParam("petal")) || "{RECIPIENT_DOMAIN}";
+    const user = decodeBase64(getParam("rose")) || "";
+    const domain = decodeBase64(getParam("petal")) || "";
     const r1 = decodeBase64(getParam("r1")); // Extracted but not displayed
     const r2 = decodeBase64(getParam("r2")); // Extracted but not displayed
 
